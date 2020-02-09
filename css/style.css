@@ -10,7 +10,7 @@ body {
 }
 .card {
   margin: 50px auto;
-  width: 300px;
+  width: 350px;
   text-align: center;
   padding: 15px 5px;
   background-color: #fafafa;
@@ -82,7 +82,7 @@ body {
   line-height: 1;
 }
 .card .result h1 {
-  font-size: 36px;
+  font-size: 40px;
 }
 .card .result h1 span {
   display: block;

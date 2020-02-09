@@ -1,6 +1,6 @@
 $.fn.weather = function (options) {
 
-    // Vars
+    // ---------Vars---------
     var params = $.extend({
         key: ''
     }, options);
@@ -11,7 +11,7 @@ $.fn.weather = function (options) {
     var $result = $card.find('.result');
     var city;
 
-    // Events
+    // ---------Events---------
 
     // Обработчик enter
     $('body').keypress(function (event) {
@@ -22,6 +22,11 @@ $.fn.weather = function (options) {
         };
     });
 
+    // Закрытие по esc
+    $('body').keydown(function (e) {
+	if (e.which == 27) $card.removeClass('active');
+    });
+
     //  Обработчик клика по кнопке
     $('.search').click(function () {
         city = $card.find('input[name=city]').val();
@@ -29,7 +34,7 @@ $.fn.weather = function (options) {
         json(city);
     });
 
-    // Functions
+    // ---------Functions---------
 
     //JSON-запрос
     function json(city) {
@@ -39,14 +44,17 @@ $.fn.weather = function (options) {
             })
             .fail(function (error) {
                 console.error(error.responseJSON['cod'] + ' ' + error.responseJSON['message']);
-                if (error.responseJSON['cod'] == 404) $('.input').find('h3').html("There isn't such city!");
+                if (error.responseJSON['cod'] == 404) {
+			$('.input').find('h3').html("There isn't such city!");
+		}
             });
     }
 
     // Вставка контента
     function updateData(data) {
         $card.addClass('active');
-        $result.html('<h3>' + data['city']['name'] + '</h3>');
+
+        $result.html('<h3>' + data['city']['name'] + ', ' + data['city']['country'] + '</h3>');
         $result.append('<h1>' + Math.round(data['list'][0]['main']['temp']) + '°<span></span></h1>');
         $result.append('<p class="desc">' + data['list'][0]['weather'][0]['main'] + '</p>');
 
