@@ -24,7 +24,7 @@ $.fn.weather = function (options) {
 
     // Закрытие по esc
     $('body').keydown(function (e) {
-	if (e.which == 27) $card.removeClass('active');
+        if (e.which == 27) $card.removeClass('active');
     });
 
     //  Обработчик клика по кнопке
@@ -45,8 +45,8 @@ $.fn.weather = function (options) {
             .fail(function (error) {
                 console.error(error.responseJSON['cod'] + ' ' + error.responseJSON['message']);
                 if (error.responseJSON['cod'] == 404) {
-			$('.input').find('h3').html("There isn't such city!");
-		}
+                    $('.input').find('h3').html("There isn't such city!");
+                }
             });
     }
 
@@ -71,21 +71,34 @@ $.fn.weather = function (options) {
         day(data);
     }
 
-    // Прогноз на 5 дней вперёд
+    // Прогноз на перёд (по часам тоже)
     function day(data) {
         var temp = [];
         var img = [];
         var min_temp = [];
         var max_temp = [];
         var wind = []
+
+        // Дата для прогноза на 5 вперед 
         var nowDay = new Date().getDate();
         var nowMonth = new Date().getMonth();
         var nowYear = new Date().getFullYear();
 
-        $result.append('<ul></ul>')
+        // Дата для прогноза по часам
+        var dateSplit = [];
+        var dayTxt = [];
+        var hourForecast = [];
+
+        $result.append('<ul></ul>');
 
         for (i = 0; i < data['cnt']; i++) {
             var date = data['list'][i]['dt_txt'];
+            dateSplit.push(date.split('-', 3));
+            dayTxt.push(dateSplit[i][2].split(' ', 2));
+
+            if (dayTxt[i][0] != nowDay) {
+                hourForecast.push({ day: dayTxt[i][0], hour: dayTxt[i][1] });
+            }
 
             if (date.includes('12:00:00')) {
                 temp.push(Math.round(data['list'][i]['main']['temp']) + '&deg;');
@@ -96,11 +109,18 @@ $.fn.weather = function (options) {
             }
         }
 
+        console.log(hourForecast);
+
 
         for (i = 0; i < temp.length; i++) {
             var nowDay = new Date().getDate() + 1 + i;
             var nowStringDate = new Date(nowYear, nowMonth, nowDay).toDateString().split(' ', 2);
-            $result.find('ul').append('<li>' + nowStringDate[0] + '<p class="feature"><img src="https://openweathermap.org/img/wn/' + img[i] + '@2x.png" width="25">' + temp[i] + '</p><p class="other">Min: ' + min_temp[i] + ' Max: ' + max_temp[i] + '<span>Wind speed: ' + wind[i] + '</span></p></li>')
+
+            $result.find('ul').append('<li>' + nowStringDate[0] + '<p class="feature"><img src="https://openweathermap.org/img/wn/' + img[i] + '@2x.png" width="25">' + temp[i] + '</p><p class="other">Min: ' + min_temp[i] + ' Max: ' + max_temp[i] + '<span>Wind speed: ' + wind[i] + '</span></p></li>');
+            $result.find('ul').append('<div class="temp-hourly"</div>');
         }
+        $result.find('li').click(function () {
+            $(this).next().toggleClass('modif');
+        });
     }
-};
+}
