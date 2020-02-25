@@ -54,11 +54,12 @@ $.fn.weather = function (options) {
     function updateData(data) {
         $card.addClass('active');
 
+        // Информация про город, чистоту неба и температура
         $result.html('<h3>' + data['city']['name'] + ', ' + data['city']['country'] + '</h3>');
         $result.append('<h1>' + Math.round(data['list'][0]['main']['temp']) + '°<span></span></h1>');
         $result.append('<p class="desc">' + data['list'][0]['weather'][0]['main'] + '</p>');
 
-
+        // Подробная информация при наведении
         $result.find('h1').hover(
             function () {
                 $result.find('h1').html('Humidity: ' + data['list'][0]['main']['humidity'] + '%<br>' +
@@ -86,18 +87,22 @@ $.fn.weather = function (options) {
 
         // Дата для прогноза по часам
         var dateSplit = [];
+        var dateTxtSplit = [];
         var dayTxt = [];
+        var hourTxt = [];
         var hourForecast = [];
 
         $result.append('<ul></ul>');
 
+        // Получаю дату, часы и данные о погоде
         for (i = 0; i < data['cnt']; i++) {
             var date = data['list'][i]['dt_txt'];
             dateSplit.push(date.split('-', 3));
-            dayTxt.push(dateSplit[i][2].split(' ', 2));
+            dateTxtSplit.push(dateSplit[i][2].split(' ', 2));
 
-            if (dayTxt[i][0] != nowDay) {
-                hourForecast.push({ day: dayTxt[i][0], hour: dayTxt[i][1] });
+            if (dateTxtSplit[i][0] != nowDay) {
+                dayTxt.push(dateTxtSplit[i][0]);
+                hourTxt.push(dateTxtSplit[i][1]);
             }
 
             if (date.includes('12:00:00')) {
@@ -109,9 +114,15 @@ $.fn.weather = function (options) {
             }
         }
 
-        console.log(hourForecast);
+        noCopy(dayTxt);
+        console.log(hourTxt);
 
+        hourTxt = hourTxt.splice(hourTxt.length - 30, 8);
+        for (i = 0; i < dayTxt.length; i++) {
+            hourForecast.push({ day: dayTxt[i], hour: [hourTxt[0]] })
+        }
 
+        // Генерирую данные на странице
         for (i = 0; i < temp.length; i++) {
             var nowDay = new Date().getDate() + 1 + i;
             var nowStringDate = new Date(nowYear, nowMonth, nowDay).toDateString().split(' ', 2);
@@ -119,8 +130,32 @@ $.fn.weather = function (options) {
             $result.find('ul').append('<li>' + nowStringDate[0] + '<p class="feature"><img src="https://openweathermap.org/img/wn/' + img[i] + '@2x.png" width="25">' + temp[i] + '</p><p class="other">Min: ' + min_temp[i] + ' Max: ' + max_temp[i] + '<span>Wind speed: ' + wind[i] + '</span></p></li>');
             $result.find('ul').append('<div class="temp-hourly"</div>');
         }
+
+        // Вставляю часы в список
+        for (j = 0; j < hourTxt.length; j++) {
+            $result.find('ul .temp-hourly').append('<p>' + hourTxt[j] + '</p>');
+        }
+
+        // Клик для открытия блока "по часам"
         $result.find('li').click(function () {
             $(this).next().toggleClass('modif');
+            $(this).prev().removeClass('modif');
         });
+
+        // $result.find('li:first-child').click(function () {
+        //     $('.temp-hourly:last-child').removeClass('modif');
+        // });
+    }
+
+    // Удаляю повторяющююся дату
+    function noCopy(a) {
+        for (var q = 1, i = 1; q < a.length; ++q) {
+            if (a[q] !== a[q - 1]) {
+                a[i++] = a[q];
+            }
+        }
+
+        a.length = i;
+        return a;
     }
 }
