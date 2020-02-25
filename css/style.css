@@ -144,8 +144,11 @@ body {
   display: flex;
 }
 .card .result .temp-hourly p {
+  display: block;
+  flex-direction: row;
   margin: 2px 0;
-  padding: 10px 30px;
+  padding: 15px 30px;
+  font-size: 13px;
   border-radius: 5px;
   background-color: #ccc;
 }

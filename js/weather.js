@@ -100,11 +100,22 @@ $.fn.weather = function (options) {
             dateSplit.push(date.split('-', 3));
             dateTxtSplit.push(dateSplit[i][2].split(' ', 2));
 
-            if (dateTxtSplit[i][0] != nowDay) {
-                dayTxt.push(dateTxtSplit[i][0]);
-                hourTxt.push(dateTxtSplit[i][1]);
+            // Убираю всё, что связано с сегодняшним днём
+            if (dateTxtSplit[i][0] == nowDay) {
+                dateTxtSplit[i].splice(i);
             }
 
+            dayTxt.push(dateTxtSplit[i][0]);
+            dayTxt = dayTxt.filter(function (x) {
+                return x !== undefined && x !== null;
+            });
+
+            hourTxt.push(dateTxtSplit[i][1]);
+            hourTxt = hourTxt.filter(function (x) {
+                return x !== undefined && x !== null;
+            });
+
+            // Получаю данные о погоде
             if (date.includes('12:00:00')) {
                 temp.push(Math.round(data['list'][i]['main']['temp']) + '&deg;');
                 min_temp.push(Math.round(data['list'][i]['main']['temp_min']) + '&deg;');
@@ -115,12 +126,11 @@ $.fn.weather = function (options) {
         }
 
         noCopy(dayTxt);
-        console.log(hourTxt);
 
-        hourTxt = hourTxt.splice(hourTxt.length - 30, 8);
-        for (i = 0; i < dayTxt.length; i++) {
-            hourForecast.push({ day: dayTxt[i], hour: [hourTxt[0]] })
+        for (i = 0; i < 8; i++) {
+            hourForecast.push({ day: dayTxt[i], hour: [hourTxt[i]] })
         }
+        console.log(hourForecast)
 
         // Генерирую данные на странице
         for (i = 0; i < temp.length; i++) {
@@ -132,8 +142,8 @@ $.fn.weather = function (options) {
         }
 
         // Вставляю часы в список
-        for (j = 0; j < hourTxt.length; j++) {
-            $result.find('ul .temp-hourly').append('<p>' + hourTxt[j] + '</p>');
+        for (j = 0; j < hourForecast.length; j++) {
+            $result.find('ul .temp-hourly').append('<p><span>' + hourForecast[j]['hour'] + '</span></p>');
         }
 
         // Клик для открытия блока "по часам"
