@@ -76,7 +76,7 @@ body {
 }
 .card .result h3 {
   color: #667279;
-  font-size: 48px;
+  font-size: 40px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   line-height: 1;
@@ -132,7 +132,7 @@ body {
   font-size: 10px;
 }
 .card .result .temp-hourly {
-  display: none;
+  display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
   width: 250px;
@@ -144,9 +144,6 @@ body {
   background-color: #eee;
   border-radius: 5px;
 }
-.card .result .temp-hourly.modif {
-  display: flex;
-}
 .card .result .temp-hourly p {
   display: block;
   width: 115px;
@@ -156,7 +153,7 @@ body {
   padding-top: 10px;
   cursor: default;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
   background-color: #ccc;
 }
@@ -164,9 +161,10 @@ body {
   display: inline-block;
   float: right;
   transform: translateY(-5px);
+  transform: translateX(-5px);
 }
 .card .result .temp-hourly p span {
   display: block;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
 }

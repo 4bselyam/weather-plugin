@@ -16,6 +16,7 @@ $.fn.weather = function (options) {
     // Обработчик enter
     $('body').keypress(function (event) {
         city = $card.find('input[name=city]').val();
+        city = $.trim(city);
         if (event.which == 13) {
             if (city.length == 0) $('.input').find('h3').html('The input is empty!');
             json(city);
@@ -131,37 +132,44 @@ $.fn.weather = function (options) {
 
             for (q = 0; q < hourTxt.length; q++) {
                 if (date.includes(hourTxt[q]) && date.includes(dayTxt[q])) {
-                    hourTemp.push(data['list'][i]['main']['temp'] + '&deg;');
+                    hourTemp.push(Math.round(data['list'][i]['main']['temp']) + '&deg;C');
                     hourIcon.push(data['list'][i]['weather'][0]['icon']);
                 }
             }
         }
 
-        noCopy(dayTxt);
-
         console.log(hourIcon, hourTemp)
-
-        for (i = 0; i < 5; i++) {
-            hourForecast.push({ day: dayTxt[i], hour: [hourTxt] })
-        }
+        noCopy(dayTxt);
 
         // Генерирую данные на странице
         for (i = 0; i < temp.length; i++) {
+            var dataAttr = [1, 2, 3, 4, 5];
             var nowDay = new Date().getDate() + 1 + i;
             var nowStringDate = new Date(nowYear, nowMonth, nowDay).toDateString().split(' ', 2);
 
-            $result.find('ul').append('<li>' + nowStringDate[0] + '<p class="feature"><img src="https://openweathermap.org/img/wn/' + img[i] + '@2x.png" width="25">' + temp[i] + '</p><p class="other">Min: ' + min_temp[i] + ' Max: ' + max_temp[i] + '<span>Wind speed: ' + wind[i] + '</span></p></li>');
+            hourForecast.push({ day: dayTxt[i], hour: [hourTxt] })
+
+            $result.find('ul').append('<li>' + nowStringDate[0] + '<p class="feature"><img src="https://openweathermap.org/img/wn/' + img[i] + '@2x.png" width="25" alt="weather icon">' + temp[i] + '</p><p class="other">Min: ' + min_temp[i] + ' Max: ' + max_temp[i] + '<span>Wind speed: ' + wind[i] + '</span></p></li>');
             $result.find('ul').append('<div class="temp-hourly"></div>');
         }
 
         // Вставляю часы в список
         for (k = 0; k < hourTxt.length; k++) {
-            $result.find('ul .temp-hourly').append('<p>' + hourTxt[k].substring(0, hourTxt[k].length - 3) + ':<img src="https://openweathermap.org/img/wn/' + hourIcon[k] + '@2x.png" width="45"><span>' + hourTemp[k] + '</span></p>');
+            $result.find('ul .temp-hourly').append('<p>' + hourTxt[k].substring(0, hourTxt[k].length - 3) + ':<img src="https://openweathermap.org/img/wn/' + hourIcon[k] + '@2x.png" width="45" alt="weather icon"><span>' + hourTemp[k] + '</span></p>');
         }
 
         // Клик для открытия блока "по часам"
-        $result.find('li').click(function () {
-            $(this).next('.temp-hourly').toggleClass('modif');
+        $result.find('ul .temp-hourly').hide();
+        $result.find('ul li').click(function () {
+            var findDiv = $(this).next('.temp-hourly');
+            var findWrapper = $(this).closest('ul');
+
+            if (findDiv.is(':visible')) {
+                findDiv.slideUp();
+            } else {
+                findWrapper.find('.temp-hourly').slideUp();
+                findDiv.slideDown();
+            }
         });
     }
 

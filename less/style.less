@@ -96,7 +96,7 @@ body {
         
        h3 {
         color: @main;
-        font-size: 48px;
+        font-size: 40px;
         text-transform: uppercase;
         letter-spacing: 1.5px;
         line-height: 1;
@@ -155,7 +155,7 @@ body {
         }
 
         .temp-hourly {
-            display: none;
+            display: flex;
             justify-content: space-evenly;
             flex-wrap: wrap;
             width: 250px;
@@ -166,10 +166,6 @@ body {
             -webkit-box-sizing: border-box;
             background-color: #eee;
             border-radius: 5px;
-
-            &.modif {
-                display: flex;
-            }
             
             p {
                 display: block;
@@ -180,7 +176,7 @@ body {
                 padding-top: 10px;
                 cursor: default;
                 border-radius: 5px;
-                font-size: 14px;
+                font-size: 15px;
                 font-weight: bold;;
                 background-color: #ccc;
 
@@ -188,11 +184,12 @@ body {
                     display: inline-block;
                     float: right;
                     transform: translateY(-5px);
+                    transform: translateX(-5px);
                 }
 
                 span {
                     display: block;
-                    font-size: 14px;
+                    font-size: 13px;
                     font-weight: normal;
                 }
             }
