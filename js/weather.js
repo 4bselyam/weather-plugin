@@ -2,7 +2,8 @@ $.fn.weather = function (options) {
 
     // ---------Vars---------
     var params = $.extend({
-        key: ''
+        key: '',
+        slideSpeed: 400
     }, options);
 
     if (params.key.length == 0) $('.input').find('h3').html("You've forgotten to write your <a href='https://home.openweathermap.org/api_keys'>API key</a>").css('color', 'red');
@@ -15,8 +16,7 @@ $.fn.weather = function (options) {
 
     // Обработчик enter
     $('body').keypress(function (event) {
-        city = $card.find('input[name=city]').val();
-        city = $.trim(city);
+        city = $.trim($card.find('input[name=city]').val());
         if (event.which == 13) {
             if (city.length == 0) $('.input').find('h3').html('The input is empty!');
             json(city);
@@ -143,7 +143,6 @@ $.fn.weather = function (options) {
 
         // Генерирую данные на странице
         for (i = 0; i < temp.length; i++) {
-            var dataAttr = [1, 2, 3, 4, 5];
             var nowDay = new Date().getDate() + 1 + i;
             var nowStringDate = new Date(nowYear, nowMonth, nowDay).toDateString().split(' ', 2);
 
@@ -165,10 +164,10 @@ $.fn.weather = function (options) {
             var findWrapper = $(this).closest('ul');
 
             if (findDiv.is(':visible')) {
-                findDiv.slideUp();
+                findDiv.slideUp(parseInt(params.slideSpeed));
             } else {
                 findWrapper.find('.temp-hourly').slideUp();
-                findDiv.slideDown();
+                findDiv.slideDown(parseInt(params.slideSpeed));
             }
         });
     }
