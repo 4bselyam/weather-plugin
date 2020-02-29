@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <title>Documentation</title>
+</head>
+
+<body>
+    <h1 class="main-name">Weather plugin</h1>
+    <p class="desc">Easy-to-use plugin created for searching weather forecast in your city.<br>
+        Created by <span>Ahmed Valiaiev.</span><br>Special thanks to <a
+            href="https://openweathermap.org/">OpenWeatherMap</a>.</p>
+    <h1 class="demo">Demo</h1>
+    <a class="btn" href="index.html" target="_blank">Click here</a>
+    <h1 class="doc">Documentation</h1>
+    <table border="1" bordercolor=>
+        <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><span>key</span></td>
+            <td>String</td>
+            <td>' ' (Empty)</td>
+            <td>Your own API key from OpenWeatherMap</td>
+        </tr>
+        <tr>
+            <td><span>slideSpeed</span></td>
+            <td>Int</td>
+            <td>400</td>
+            <td>Animation speed in milliseconds</td>
+        </tr>
+    </table>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 50px;
+            font-family: Roboto, sans-serif
+        }
+
+        h1 {
+            color: #2f3542;
+            font-weight: 700;
+            font-size: 50px;
+            line-height: 1.2;
+            padding: 0;
+            margin: 0
+        }
+
+        .desc {
+            color: #888;
+            font-size: 13px;
+            line-height: 1.7
+        }
+
+        .desc span {
+            font-weight: 700;
+            color: #e74c3c
+        }
+
+        .desc a {
+            color: #2f3542;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all .3s ease
+        }
+
+        .desc a:hover {
+            color: #000
+        }
+
+        .demo {
+            margin-top: 80px;
+            margin-bottom: 30px
+        }
+
+        .btn {
+            padding: 10px 35px;
+            font-weight: 700;
+            outline: 0;
+            border: 2px solid #2f3542;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #2f3542;
+            transition: all .3s ease
+        }
+
+        .btn:hover {
+            background-color: #eee
+        }
+
+        .doc {
+            margin-top: 100px
+        }
+
+        table {
+            border: 1px solid #ccc;
+            text-align: left;
+            font-size: 15px;
+            border-collapse: collapse;
+            width: 1000px;
+            color: #2f3542
+        }
+
+        table tr td,
+        th {
+            padding: 20px
+        }
+
+        table tr td span {
+            color: #e74c3c;
+            font-weight: 700
+        }
+    </style>
+</body>
+
+</html>
