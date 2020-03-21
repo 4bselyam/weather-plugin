@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Sintony:400,700&display=swap" rel="stylesheet">
+    <title>Weather plugin</title>
+</head>
+
+<body>
+    <a class="btn-back" href="index.html">&leftarrow; Return</a>
+    <div class="card">
+        <div class="input">
+            <h3>Enter your city</h3>
+            <input type="text" autofocus required placeholder="Your city..." name="city">
+            <a class="search">Search</a>
+            <p>If there are several cities in the world, then add the <a href="https://countrycode.org/">country
+                    code</a><br>
+                Example: Odessa, US
+            </p>
+        </div>
+        <div class="result">
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="js/weather.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
